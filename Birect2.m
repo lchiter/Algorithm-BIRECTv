@@ -518,7 +518,7 @@ bb=B1(:,1)-(B1(:,1)-A1(:,1))/3;
 nr1=2*norm((A1(:,1))-(B1(:,1)))/3;
 %nr1=norm((A1(:,1))-(B1(:,1)));
 % nr1=2*norm((A1(:,1))-(B1(:,1)),inf)/3;
-I=find(abs(nor1-nr1)<=1e-4,1,'first');
+I=find(abs(nor1-nr1)<=1e-7,1,'first');
  if length(I)==1
      nr1=nor1(I);
  end
