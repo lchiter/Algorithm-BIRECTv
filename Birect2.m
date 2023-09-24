@@ -110,7 +110,7 @@ elseif example==12
 % f_star=0.000072;
 %  A0=-10.0*ones(5,1);
 %  B0=10.O*ones(5,1);
-  A0=-10.40*ones(5,1);
+  A0=-10.0*ones(5,1);
   B0=12.301*ones(5,1);
 %  A0=-10.354*ones(5,1);
 %   B0=13.10*ones(5,1);
@@ -119,7 +119,7 @@ elseif example==13
     %  Dixon & Price [-10 10]*[-10 10] f*=0
 %        f_star=0.0000952;% la valeur minimal th?orique de f
   f_star=0;
-  A0=-10*ones(10,1);
+  A0=-10.01*ones(10,1);
   B0=12.0*ones(10,1);
   name='Dixon & Price dim10';
 elseif example==14
@@ -142,8 +142,8 @@ elseif example==16
 %   f_star=0;
    f_star=0.000000776;
   A0=[-600;-600];
-%   B0=[692.2;692.2];
- B0=[700;700];
+   B0=[692.2;692.2];
+%  B0=[700;700];
   name='Griewank';
 elseif example==17
  %  Hartman  
@@ -313,8 +313,8 @@ elseif example==38
   %  Schwefel 5 function [-500 500]*[-500 500] f*=0  x*=[0 0]
   f_star=0;
 % f_star=0.0000641;
-  A0=-519*ones(5,1);
-  B0=519*ones(5,1);
+  A0=-500*ones(5,1);
+  B0=650*ones(5,1);
   name='Schwefel 5';
 elseif example==39
   %  Schwefel 10 function [-500 500]*[-500 500] f*=0  x*=[0 0]
@@ -322,7 +322,7 @@ elseif example==39
 %      f_star= 0.0000013;
   f_star=0;
   A0=-500*ones(10,1);
-  B0=600*ones(10,1);
+  B0=650*ones(10,1);
   name='Schwefel 10';
 elseif example==40
   %  Shekel m=5 dim=4
@@ -518,7 +518,7 @@ bb=B1(:,1)-(B1(:,1)-A1(:,1))/3;
 nr1=2*norm((A1(:,1))-(B1(:,1)))/3;
 %nr1=norm((A1(:,1))-(B1(:,1)));
 % nr1=2*norm((A1(:,1))-(B1(:,1)),inf)/3;
-I=find(abs(nor1-nr1)<=1e-7,1,'first');
+I=find(abs(nor1-nr1)<=1e-4,1,'first');
  if length(I)==1
      nr1=nor1(I);
  end

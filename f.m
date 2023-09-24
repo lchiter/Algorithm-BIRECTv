@@ -1,6 +1,7 @@
 % MATLAB coding by: Naziheddine Belkacem & Lakhdar Chiter
 % A collection of 54 global optimization test problems from :
-% Source: http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page295.htm
+% Source:
+%  - http://www-optima.amp.i.kyoto-u.ac.jp/member/student/hedar/Hedar_files/TestGO_files/Page295.htm
 %--------------------------
 function y=f(x)
 global example
@@ -13,7 +14,7 @@ for i=1:n;
    s1 = s1+x(i)^2;
    s2 = s2+cos(c*x(i));
 end
-y = -a*exp(-b*sqrt(1/n*s1))-exp(1/n*s2)+a+exp(1);
+y = -a*exp(-b*(1/n*s1)^(1/2))-exp(1/n*s2)+a+exp(1);
 %---------------------------
 elseif example ==2
     % Ackley function.
@@ -35,7 +36,8 @@ for i=1:n;
    s1 = s1+x(i)^2;
    s2 = s2+cos(c*x(i));
 end
-y = -a*exp(-b*sqrt(1/n*s1))-exp(1/n*s2)+a+exp(1);
+% y = -a*exp(-b*sqrt(1/n*s1))-exp(1/n*s2)+a+exp(1);
+y = -a*exp(-b*(1/n*s1)^(1/2))-exp(1/n*s2)+a+exp(1);
 %---------------------------
 elseif example==4
 % Beale function.
@@ -85,22 +87,29 @@ elseif example==12
     % Dixon and Price function.
 % The number of variables n should be adjusted below.
 % The default value of n = 2, 5, 10.
-sum = 0;n=5;
+n=5;
+term1=(x(1)-1)^2;
+sum = 0;
 for j = 2:n;
-    sum = sum+j*(2*x(j)^2-x(j-1))^2;    
+    xold = x(j-1);
+    new = j*(2*x(j)^2-xold)^2;
+    sum = sum+new;    
 end
-y = sum+(x(1)-1)^2;
+y = term1+sum;
 %----------------------------------
 elseif example==13
     % Dixon and Price function.
 % The number of variables n should be adjusted below.
 % The default value of n = 2, 5, 10.
 n=10;
-sum = 0;
-for j = 2:n;
-    sum = sum+j*(2*x(j)^2-x(j-1))^2;    
+% term1=(x(1)-1)^2;
+s1= 0;
+for j = 2:n
+%     xold = x(j-1);
+%     new = j*(2*x(j)^2-xold)^2;
+      s1 = s1 + j*(2*x(j)^2 - x(j - 1))^2; 
 end
-y = sum+(x(1)-1)^2;
+y = s1 + (x(1) - 1)^2;
 %----------------------------------
 elseif example==14
 % Easom function 
@@ -122,9 +131,13 @@ n = 2;
 fr = 4000;
 s = 0;
 p = 1;
-for j = 1:n; s = s+x(j)^2; end
-for j = 1:n; p = p*cos(x(j)/sqrt(j)); end
-y = s/fr-p+1;
+for j = 1:n 
+    s = s+x(j)^2; 
+end
+for j = 1:n
+    p = p*cos(x(j)/sqrt(j)); 
+end
+y = s/fr - p + 1;
 %-----------------------------------------
 elseif example==17
 % Hartmann function 
@@ -139,15 +152,15 @@ p(1,1)=0.36890;p(1,2)=0.11700;p(1,3)=0.26730;
 p(2,1)=0.46990;p(2,2)=0.43870;p(2,3)=0.74700;
 p(3,1)=0.10910;p(3,2)=0.87320;p(3,3)=0.55470;
 p(4,1)=0.03815;p(4,2)=0.57430;p(4,3)=0.88280;
-s = 0;
+sum = 0;
 for i=1:4;
    sm=0;
    for j=1:3;
       sm=sm+a(i,j)*(x(j)-p(i,j))^2;
    end
-   s=s+c(i)*exp(-sm);
+   sum=sum+c(i)*exp(-sm);
 end
-y = -s;
+y = -sum;
 %---------------------------
 elseif example==18 
 % Hartmann function 
@@ -162,21 +175,21 @@ p(1,1)=0.1312;p(1,2)=0.1696;p(1,3)=0.5569;p(1,4)=0.0124;p(1,5)=0.8283;p(1,6)=0.5
 p(2,1)=0.2329;p(2,2)=0.4135;p(2,3)=0.8307;p(2,4)=0.3736;p(2,5)=0.1004;p(2,6)=0.9991;
 p(3,1)=0.2348;p(3,2)=0.1451;p(3,3)=0.3522;p(3,4)=0.2883;p(3,5)=0.3047;p(3,6)=0.6650;
 p(4,1)=0.4047;p(4,2)=0.8828;p(4,3)=0.8732;p(4,4)=0.5743;p(4,5)=0.1091;p(4,6)=0.0381;
-s = 0;
+sum = 0;
 for i=1:4;
    sm=0;
    for j=1:6;
       sm=sm+a(i,j)*(x(j)-p(i,j))^2;
    end
-   s=s+c(i)*exp(-sm);
+   sum=sum+c(i)*exp(-sm);
 end
-y = -s;
+y = -sum;
 %---------------------------
 elseif example==19
 % Hump function 
 % The number of variables n = 2.
 % y=1.0316285+4*x(1)^2-2.1*x(1)^4+x(1)^6/3+x(1)*x(2)-4*x(2)^2+4*x(2)^4;
-y = (4-2.1*x(1)^2+(x(1)^4)/3)*x(1)^2+x(1)*x(2)+(-4+4*x(2)^2)*x(2)^2
+y = (4-2.1*x(1)^2+(x(1)^4)/3)*x(1)^2+x(1)*x(2)+(-4+4*x(2)^2)*x(2)^2;
 %----------------------------------
 elseif example==20
 % Levy function 
@@ -185,11 +198,11 @@ elseif example==20
 % 
 n = 2;% 5, 10;
 for i = 1:n; z(i) = 1+(x(i)-1)/4; end
-s = sin(pi*z(1))^2;
+sum = sin(pi*z(1))^2;
 for i = 1:n-1
-    s = s+(z(i)-1)^2*(1+10*(sin(pi*z(i)+1))^2);
+    sum = sum+(z(i)-1)^2*(1+10*(sin(pi*z(i)+1))^2);
 end 
-y = s+(z(n)-1)^2*(1+(sin(2*pi*z(n)))^2);
+y = sum+(z(n)-1)^2*(1+(sin(2*pi*z(n)))^2);
 %----------------------------------------------
 elseif example==21
     % Levy function 
@@ -197,7 +210,9 @@ elseif example==21
 % The default value of n =2.
 % 
 n = 5;% 5, 10;
-for i = 1:n; z(i) = 1+(x(i)-1)/4; end
+for i = 1:n; 
+ z(i) = 1+(x(i)-1)/4; 
+end
 s = sin(pi*z(1))^2;
 for i = 1:n-1
     s = s+(z(i)-1)^2*(1+10*(sin(pi*z(i)+1))^2);
@@ -210,11 +225,11 @@ elseif example==22
 % 
 n = 10;% 5, 10;
 for i = 1:n; z(i) = 1+(x(i)-1)/4; end
-s = sin(pi*z(1))^2;
+sum = sin(pi*z(1))^2;
 for i = 1:n-1
-    s = s+(z(i)-1)^2*(1+10*(sin(pi*z(i)+1))^2);
+    sum = sum+(z(i)-1)^2*(1+10*(sin(pi*z(i)+1))^2);
 end 
-y = s+(z(n)-1)^2*(1+(sin(2*pi*z(n)))^2);
+y = sum+(z(n)-1)^2*(1+(sin(2*pi*z(n)))^2);
 elseif example==23
 % Matyas function 
 % The number of variables n =2.
@@ -228,24 +243,25 @@ elseif example==24
 % 
 n = 2; 
 m = 10;
-sum1 = 0;
+sum = 0;
 for i = 1:n;
-    sum1 = sum1+sin(x(i))*(sin(i*x(i)^2/pi))^(2*m);
+    sum = sum+sin(x(i))*(sin(i*x(i)^2/pi))^(2*m);
 end
-y = -sum1;
+y = -sum;
 %-----------------------------------------
 elseif example==25
  % Michalewicz function 
 % The number of variables n should be adjusted below.
 % The default value of n =2.
 % 
-n = 5; 
 m = 10;
-sum1 = 0;
-for i = 1:n;
-    sum1 = sum1+sin(x(i))*(sin(i*x(i)^2/pi))^(2*m);
+n = 5; 
+s = 0;
+for i = 1:n
+    new = sin(x(i))*(sin(i*x(i)^2/pi))^(2*m);
+    s = s + new;
 end
-y = -sum1;
+y = -s;
 %----------------------------------------------- 
 elseif example==26
     % Michalewicz function 
@@ -266,58 +282,77 @@ elseif example==27
 % The default value of n = 4.
 % 
 n = 4;
+% b=10
 b = 0.5;
-s_out = 0;
-for k = 1:n;
-    s_in = 0;
+outer = 0;
+for k = 1:n
+    inner = 0;
     for j = 1:n
-        s_in = s_in+(j^k+b)*((x(j)/j)^k-1);
+        inner = inner+(j^k+b)*((x(j)/j)^k-1);
+%         inner = inner + (j + b)*(x(j)^k - (1/j)^k);
     end
-    s_out = s_out+s_in^2;
+    outer = outer+inner^2;
 end
-y = s_out;
+y = outer;
 %------------------------------------------------
 elseif example==28
 % Powell function 
 % Matlab Code by A. Hedar (Nov. 23, 2005).
 % The number of variables n should be adjusted below.
 % 
-n = 4;  % 8;
-m = n;  
+n = 4;%, 8;
+m = n;
+% for i = 1:m/4
+%     fvec(4*i-3) = x(4*i-3)+10*(x(4*i-2));
+%     fvec(4*i-2) = sqrt(5)*(x(4*i-1)-x(4*i));
+%     fvec(4*i-1) = (x(4*i-2)-2*(x(4*i-1)))^2;
+%     fvec(4*i)   = sqrt(10)*(x(4*i-3)-x(4*i))^2;
+sum = 0;
 for i = 1:m/4
-    fvec(4*i-3) = x(4*i-3)+10*(x(4*i-2));
-    fvec(4*i-2) = sqrt(5)*(x(4*i-1)-x(4*i));
-    fvec(4*i-1) = (x(4*i-2)-2*(x(4*i-1)))^2;
-    fvec(4*i)   = sqrt(10)*(x(4*i-3)-x(4*i))^2;
+ %for i = 1:2
+    term1 = (x(4*i-3)+10*x(4*i-2))^2;
+	term2 = 5*(x(4*i-1)-x(4*i))^2;
+	term3 = (x(4*i-2)-2*x(4*i-1))^4;
+	term4 = 10*(x(4*i-3)-x(4*i))^4;
+	sum = sum + term1 + term2 + term3 + term4;
 end;
-fvec = fvec';
-y = norm(fvec)^2;
-%------------------------------------------------
+% fvec = fvec';
+% y = norm(fvec)^2;
+y = sum;
+%----------------------------
 elseif example==29
 % Powell function 
 % Matlab Code by A. Hedar (Nov. 23, 2005).
 % The number of variables n should be adjusted below.
 % 
-n = 8;%, 8;
-m = n;
+  n = 8;%, 8;
+  m = n;
+sum = 0;
 for i = 1:m/4
-    fvec(4*i-3) = x(4*i-3)+10*(x(4*i-2));
-    fvec(4*i-2) = sqrt(5)*(x(4*i-1)-x(4*i));
-    fvec(4*i-1) = (x(4*i-2)-2*(x(4*i-1)))^2;
-    fvec(4*i)   = sqrt(10)*(x(4*i-3)-x(4*i))^2;
+ %for i = 1:2
+    term1 = (x(4*i-3)+10*x(4*i-2))^2;
+	term2 = 5*(x(4*i-1)-x(4*i))^2;
+	term3 = (x(4*i-2)-2*x(4*i-1))^4;
+	term4 = 10*(x(4*i-3)-x(4*i))^4;
+	sum = sum + term1 + term2 + term3 + term4;
+%      fvec(4*i-3) = x(4*i-3)+10*(x(4*i-2));
+%      fvec(4*i-2) = sqrt(5)*(x(4*i-1)-x(4*i));
+%      fvec(4*i-1) = (x(4*i-2)-2*(x(4*i-1)))^2;
+%      fvec(4*i)   = sqrt(10)*(x(4*i-3)-x(4*i))^2;
 end;
-fvec = fvec';
-y = norm(fvec)^2;
-%------------------------------------------------
+%   fvec = fvec';
+%   y = norm(fvec)^2;
+y = sum;
+%----------------------------
 elseif example==30
 % Power Sum function 
 % The number of variables n should be adjusted below.
 % The default value of n = 4.
 % 
 n = 4;
-b = [8,18,44,114];
+ b = [8,18,44,114];
 s_out = 0;
-for k = 1:n;
+for k = 1:n
     s_in = 0;
     for j = 1:n
         s_in = s_in+x(j)^k;
@@ -408,11 +443,11 @@ elseif example==37
 % The default value of n = 2.
 % 
 n = 2;%, 5, 10;
-sum = 0;
+s = 0;
 for j = 1:n;
-   sum = sum + x(j)*sin(sqrt(abs(x(j))));
+   s = s + x(j)*sin(sqrt(abs(x(j))));
 end
-y = 418.9829*n-sum;
+y = 418.9828872724336*n - s;
 %------------------------
 elseif example==38
 % Schwefel function
@@ -421,11 +456,11 @@ elseif example==38
 % The default value of n = 2.
 % 
 n = 5;%, 5, 10;
-sum = 0;
+s = 0;
 for j = 1:n;
-   sum = sum + x(j)*sin(sqrt(abs(x(j))));
+   s = s + x(j)*sin(sqrt(abs(x(j))));
 end
-y = 418.9829*n-sum;
+y = 418.9828872724336*n - s;
 %------------------------
 elseif example==39
 % Schwefel function
@@ -433,12 +468,17 @@ elseif example==39
 % The number of variables n should be adjusted below.
 % The default value of n = 2.
 % 
-n = 10;%, 5, 10;
-s = 0;
-for j = 1:n;
-   s = s + x(j)*sin(sqrt(abs(x(j))));
-end
-y = 418.9829*n-s;
+   n = 10;%, 5, 10;
+   s= 0;
+  for j = 1:n;
+     s = s + x(j)*sin(sqrt(abs(x(j))));
+%       s =s -x(j)*sin(sqrt(abs(x(j))));
+ end
+%     y = 418.9829*n-s;
+%   y = 418.9829*n-sum;
+ %   s = sum(-x.*sin(sqrt(abs(x))));
+% s = sum(-x(j).*sin(sqrt(abs(x(j)))));
+ y = 418.9828872724336*n - s;
 %------------------------
 elseif example==40
 % Shekel function
@@ -463,15 +503,15 @@ for j = 1:2;
 end
 c(1) = 0.1; c(2) = 0.2; c(3) = 0.2; c(4) = 0.4; c(5) = 0.4;
 c(6) = 0.6; c(7) = 0.3; c(8) = 0.7; c(9) = 0.5; c(10)= 0.5;
-s = 0;
+sum = 0;
 for j = 1:m;
    p = 0;
    for i = 1:4
       p = p+(x(i)-a(j,i))^2;
    end
-   s = s+1/(p+c(j));
+   sum = sum+1/(p+c(j));
 end
-y = -s;
+y = -sum;
 %--------------------------------
 elseif example==41
 % Shekel function
@@ -496,15 +536,15 @@ for j = 1:2;
 end
 c(1) = 0.1; c(2) = 0.2; c(3) = 0.2; c(4) = 0.4; c(5) = 0.4;
 c(6) = 0.6; c(7) = 0.3; c(8) = 0.7; c(9) = 0.5; c(10)= 0.5;
-s = 0;
+sum = 0;
 for j = 1:m;
    p = 0;
    for i = 1:4
       p = p+(x(i)-a(j,i))^2;
    end
-   s = s+1/(p+c(j));
+   sum = sum+1/(p+c(j));
 end
-y = -s;
+y = -sum;
 %--------------------------------
 elseif example==42
 % Shekel function
@@ -529,15 +569,15 @@ for j = 1:2;
 end
 c(1) = 0.1; c(2) = 0.2; c(3) = 0.2; c(4) = 0.4; c(5) = 0.4;
 c(6) = 0.6; c(7) = 0.3; c(8) = 0.7; c(9) = 0.5; c(10)= 0.5;
-s = 0;
+sum = 0;
 for j = 1:m;
    p = 0;
    for i = 1:4
       p = p+(x(i)-a(j,i))^2;
    end
-   s = s+1/(p+c(j));
+   sum = sum+1/(p+c(j));
 end
-y = -s;
+y = -sum;
 %--------------------------------
 elseif example==43
 % Shubert function
@@ -559,11 +599,11 @@ elseif example==44
 % The default value of n = 30.
 % 
 n = 2; %(mettre ??, 5, et 10)
-s = 0;
+sum = 0;
 for j = 1:n
-    s = s+x(j)^2; 
+    sum = sum+x(j)^2; 
 end
-y = s;
+y = sum;
 %-----------------------------------
 elseif example==45
 % Sphere function 
@@ -572,11 +612,11 @@ elseif example==45
 % The default value of n = 30.
 % 
 n = 5; %(mettre ??, 5, et 10)
-s = 0;
+sum = 0;
 for j = 1:n
-    s = s+x(j)^2; 
+    sum = sum+x(j)^2; 
 end
-y = s;
+y = sum;
 %-----------------------------------
 elseif example==46
 % Sphere function 
@@ -585,11 +625,11 @@ elseif example==46
 % The default value of n = 30.
 % 
 n = 10; %(mettre ??, 5, et 10)
-s1 = 0;
+sum = 0;
 for j = 1:n
-    s1 = s1+x(j)^2; 
+    sum = sum+x(j)^2; 
 end
-y = s1;
+y = sum;
 %-----------------------------------
 elseif example==47
 % Sum Squares function
@@ -598,11 +638,11 @@ elseif example==47
 % The default value of n = 20.
 % 
 n = 2;
-s1 = 0;
+s = 0;
 for j = 1:n  
-    s1=s1+j*x(j)^2; 
+    s=s+j*x(j)^2; 
 end
-y = s1;
+y = s;
 %-------------------------
 elseif example==48
 % Sum Squares function
@@ -649,11 +689,10 @@ y = s1-s2;
 %-------------------------
 elseif example==51
 % Trid function
-% Matlab Code by A. Hedar (Nov. 23, 2005).
 % The number of variables n should be adjusted below.
 % The default value of n = 10.
 % 
-n = 10;                    % mettre 6 et 10
+n = 10;                    % dim 6 et 10
 s1 = 0;
 s2 = 0;
 for j = 1:n;
@@ -688,7 +727,7 @@ elseif example==53
 n = 5;                  % mettre 2, 5, 10
 s1 = 0;
 s2 = 0;
-for j = 1:n;
+for j = 1:n
     s1 = s1+x(j)^2;
     s2 = s2+0.5*j*x(j);
 end
@@ -709,5 +748,6 @@ for j = 1:n;
 end
 y = s1+s2^2+s2^4;
 %----------------------------
+
 end
 return
