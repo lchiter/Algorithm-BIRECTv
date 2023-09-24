@@ -2,8 +2,8 @@
 % Matlab program  : BIRECTv
 % Written by : Naziheddine Belkacem    (naziheddine@yahoo.fr)
 % and : Lakhdar Chiter   (lchiter@univ-setif.dz)
-% Created on : 0510/2021
-% Purpose    : DIRECT optimization algorithm for box constraints.
+% Created on : 05/10/2021
+% Purpose    : DIRECT-type algorithms for unconstrained global optimization.
 %--------------------------------------------------------------------------
 % clc;close all;
 global g example data_ex data_fex f_eval cont
