@@ -2,7 +2,7 @@
 % Selection of potential optimal hyper-rectangles
 %  Authors : Naziheddine Belkacem    (naziheddine@yahoo.fr)
 % and : Lakhdar Chiter   (lchiter@univ-setif.dz)
-% Created : 0510/2021
+% Created : 05/10/2021
 % Purpose    : Running BIRECTv or BIRECTv-l 
 %--------------------------------------------------------------------------
 function [ll]=po_opt(nor,D,fmin,epsilon)
