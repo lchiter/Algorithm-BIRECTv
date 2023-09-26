@@ -19,6 +19,8 @@ uncomment ind2=find(mn==D(I),1,'first'); and comment ind2=find(mn==D(I)); to run
  ind2=find(mn==D(I),1,'first');
  ind2=I(ind2);
 
+When finishing the result is displayed in the file results.txt (by clicking on the file)
+You can obtain xmin, fmin, the number of function evaluations, and the percent error in the file all_examples by running only one test example.
 The file median-average is auxiliary and helps to get the median and the average from any results. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
