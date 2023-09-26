@@ -6,8 +6,8 @@ global  g data_ex data_fex f_eval cont
 % global  g data_ex data_fex f_eval cont
 %  Authors : Naziheddine Belkacem    (naziheddine@yahoo.fr)
 % and : Lakhdar Chiter   (lchiter@univ-setif.dz)
-% Created : 0510/2021
-% Purpose    : Partitioning strategy 
+% Created : 05/10/2021
+% Purpose : Partitioning scheme 
 %--------------------------------------------------------------------------
 %%%%%%%%%%%%%%%%%%%
   [c i]=max(abs(B-A));
