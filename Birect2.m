@@ -228,8 +228,8 @@ elseif example==27
 % f_star=0.00203;
 %   A0=-4.5*ones(4,1);
 %   B0=4.42*ones(4,1);
-A0=-4.0*ones(4,1);
-B0=4.0*ones(4,1);
+A0=-4.10*ones(4,1);
+B0=4.11*ones(4,1);
   name='Pern 4';
 elseif example==28
   %   Powell 4
